@@ -417,3 +417,19 @@ button[kind="secondary"]:hover {
     margin: 2.5rem 0;
     border: none;
 }
+
+/* Sidebar Menu Typography - Classical & Larger */
+[data-testid="stSidebar"] a, 
+[data-testid="stSidebar"] span, 
+[data-testid="stSidebar"] p {
+    font-family: 'Cinzel', serif !important;
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.03em !important;
+    color: var(--accent-maroon) !important;
+}
+
+[data-testid="stSidebar"] a:hover p,
+[data-testid="stSidebar"] a:hover span {
+    color: var(--accent-maroon-light) !important;
+}
