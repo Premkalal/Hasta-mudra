@@ -1,0 +1,25 @@
+# Hasta Mudra Recognition — Python Dependencies
+# Install with:  pip install -r requirements.txt
+
+# Core UI
+streamlit>=1.35.0
+
+# Computer vision
+opencv-python>=4.9.0
+mediapipe>=0.10.14
+
+# Data & analytics
+numpy>=1.26.0
+pandas>=2.2.0
+
+# Configuration
+PyYAML>=6.0.1
+
+# Testing
+pytest>=8.0.0
+
+# ML (Semester 4 — uncomment when needed)
+# scikit-learn>=1.5.0
+# joblib>=1.4.0
+# tensorflow>=2.17.0
+# onnxruntime>=1.18.0

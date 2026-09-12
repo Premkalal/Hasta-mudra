@@ -1,0 +1,36 @@
+# ─────────────────────────────────────────────
+#  Hasta Mudra – Application Settings
+# ─────────────────────────────────────────────
+
+app:
+  name: "Hasta Mudra Recognition"
+  version: "1.0.0"
+  debug: false
+
+camera:
+  device_index: 0          # webcam index (0 = default)
+  frame_width: 640
+  frame_height: 480
+  fps: 30
+
+mediapipe:
+  max_num_hands: 1
+  min_detection_confidence: 0.75
+  min_tracking_confidence: 0.75
+  model_complexity: 1       # 0 = lite, 1 = full
+
+recognition:
+  engine: "rule_based"      # options: rule_based | ml_model
+  confidence_threshold: 0.80
+  smoothing_frames: 5       # majority vote over N frames
+
+database:
+  path: "db/hasta_mudra.db"
+
+analytics:
+  session_log: true
+  export_csv: true
+
+logging:
+  level: "INFO"             # DEBUG | INFO | WARNING | ERROR
+  file: "logs/app.log"

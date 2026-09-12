@@ -1,0 +1,419 @@
+/* assets/styles.css — HastaAI Modern AI + Indian Classical Heritage Styling */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg-warm-ivory: #FAF8F5;
+    --bg-card: #FFFFFF;
+    --bg-card-subtle: #F6F3EE;
+    --text-primary: #1F2421;
+    --text-secondary: #5A5D5A;
+    --accent-maroon: #722F37;
+    --accent-maroon-dark: #581822;
+    --accent-maroon-light: #8C3B45;
+    --accent-gold: #C5A059;
+    --accent-gold-light: #E0C58A;
+    --border-gold-subtle: rgba(197, 160, 89, 0.3);
+    --border-card: rgba(0, 0, 0, 0.06);
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.04);
+    --shadow-hover: 0 8px 30px rgba(114, 47, 55, 0.08);
+}
+
+/* Global Font & Spacing */
+html, body, [class*="css"] {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-primary);
+}
+
+/* Headings with Classical Dignity */
+h1, h2, h3, .brand-font {
+    font-family: 'Cinzel', serif !important;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--accent-maroon) !important;
+}
+
+/* App Header & Brand Bar */
+.brand-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    background: #FFFFFF;
+    border: 1px solid var(--border-gold-subtle);
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-soft);
+}
+
+.brand-logo-text {
+    font-family: 'Cinzel', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent-maroon);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.brand-tagline {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* Hero Section */
+.hero-container {
+    background: linear-gradient(135deg, #FFFFFF 0%, #FAF4EB 100%);
+    border: 1px solid var(--border-gold-subtle);
+    border-radius: 20px;
+    padding: 3.5rem 2.5rem;
+    margin-bottom: 2.5rem;
+    box-shadow: var(--shadow-soft);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-headline {
+    font-family: 'Cinzel', serif;
+    font-size: 2.6rem;
+    line-height: 1.2;
+    color: var(--accent-maroon);
+    margin-bottom: 1.2rem;
+    font-weight: 700;
+}
+
+.hero-subtitle {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    max-width: 680px;
+    margin-bottom: 2rem;
+}
+
+/* Column Flex Alignment for Equal-Height Card Rows */
+div[data-testid="stHorizontalBlock"] {
+    align-items: stretch !important;
+}
+
+div[data-testid="column"] {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+div[data-testid="column"] > div[data-testid="stVerticalBlock"] {
+    flex: 1 1 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+}
+
+div[data-testid="column"] > div[data-testid="stVerticalBlock"] > div[data-testid="element-container"],
+div[data-testid="column"] > div[data-testid="stVerticalBlock"] > div[data-testid="element-container"] > div[data-testid="stMarkdownContainer"] {
+    flex: 1 1 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+}
+
+/* Base Hasta Card — Uniform Height & Interactive Hover Animation */
+.hasta-card {
+    background: #FFFFFF;
+    border: 1px solid var(--border-gold-subtle);
+    border-radius: 16px;
+    padding: 1.75rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(114, 47, 55, 0.04);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-color 0.3s ease;
+    height: 100% !important;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+}
+
+/* Dynamic Glowing Gold Top Beam on Hover */
+.hasta-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3.5px;
+    background: linear-gradient(90deg, #722F37, #C5A059, #E5C378, #C5A059, #722F37);
+    opacity: 0;
+    transform: scaleX(0.2);
+    transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Card Interactive Hover Effect */
+.hasta-card:hover {
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 16px 36px rgba(114, 47, 55, 0.12), 0 4px 14px rgba(197, 160, 89, 0.18);
+    border-color: rgba(197, 160, 89, 0.75);
+}
+
+.hasta-card:hover::before {
+    opacity: 1;
+    transform: scaleX(1);
+}
+
+.hasta-card:hover .card-title {
+    color: var(--accent-maroon-light);
+}
+
+.hasta-card:hover .step-badge {
+    transform: scale(1.15) rotate(6deg);
+    background: var(--accent-maroon-light);
+    box-shadow: 0 4px 12px rgba(114, 47, 55, 0.3);
+}
+
+/* Card Typography */
+.card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent-maroon);
+    margin-bottom: 0.6rem;
+    transition: color 0.25s ease;
+}
+
+.card-desc {
+    font-size: 0.925rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    flex-grow: 1;
+}
+
+/* Specific Group Uniform Minimum Heights */
+.why-card {
+    min-height: 200px;
+}
+
+.step-card {
+    min-height: 230px;
+}
+
+.mudra-showcase-card {
+    min-height: 260px;
+}
+
+.mudra-library-card {
+    min-height: 250px;
+    margin-bottom: 1.5rem;
+}
+
+.step-flow-card {
+    min-height: 155px;
+    padding: 1.25rem 0.65rem !important;
+}
+
+/* Hero Showcase Card */
+.hero-showcase-card {
+    background: linear-gradient(145deg, #FFFFFF 0%, #FAF6F0 100%);
+    border: 1px solid rgba(197, 160, 89, 0.4);
+    border-radius: 20px;
+    padding: 2.2rem;
+    box-shadow: 0 8px 30px rgba(114, 47, 55, 0.06), 0 2px 8px rgba(197, 160, 89, 0.08);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    height: 100% !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hero-showcase-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 40px rgba(114, 47, 55, 0.12), 0 4px 14px rgba(197, 160, 89, 0.15);
+    border-color: rgba(197, 160, 89, 0.7);
+}
+
+.live-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: #EDF7EE;
+    color: #1E7E34;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 0.35rem 0.8rem;
+    border-radius: 20px;
+    border: 1px solid rgba(30, 126, 52, 0.2);
+}
+
+.live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #28A745;
+    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.3);
+    animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(40, 167, 69, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+}
+
+.showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+    margin: 1.2rem 0;
+}
+
+.showcase-item {
+    background: #FFFFFF;
+    border: 1px solid rgba(197, 160, 89, 0.25);
+    border-radius: 12px;
+    padding: 0.9rem 0.75rem;
+    text-align: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.showcase-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(114, 47, 55, 0.08);
+    border-color: var(--accent-gold);
+}
+
+.showcase-num {
+    font-family: 'Cinzel', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent-maroon);
+    line-height: 1.2;
+}
+
+.showcase-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+    letter-spacing: 0.02em;
+}
+
+/* Metric / Stat Boxes */
+.metric-box {
+    background: #FFFFFF;
+    border: 1px solid var(--border-gold-subtle);
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.metric-box:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--accent-gold);
+}
+
+.metric-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent-gold);
+    margin-bottom: 0.4rem;
+}
+
+.metric-val {
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-maroon);
+}
+
+/* How It Works Steps */
+.step-badge {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 50%;
+    background: var(--accent-maroon);
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-align: center;
+    margin-bottom: 0.9rem;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Recognition Badges */
+.badge-status {
+    display: inline-block;
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.badge-excellent {
+    background: #EBF7EE;
+    color: #1B7A33;
+    border: 1px solid #A8E0B5;
+}
+
+.badge-good {
+    background: #FEF7E6;
+    color: #925805;
+    border: 1px solid #FCD68A;
+}
+
+.badge-adjusting {
+    background: #F4F4F5;
+    color: #52525B;
+    border: 1px solid #E4E4E7;
+}
+
+/* Streamlit Widget Polish */
+div.stButton > button {
+    background-color: var(--accent-maroon) !important;
+    color: #FFFFFF !important;
+    font-weight: 600 !important;
+    border: 1px solid var(--accent-gold) !important;
+    border-radius: 8px !important;
+    padding: 0.6rem 1.5rem !important;
+    transition: all 0.2s ease !important;
+}
+
+div.stButton > button:hover {
+    background-color: var(--accent-maroon-dark) !important;
+    border-color: var(--accent-gold-light) !important;
+    box-shadow: 0 4px 14px rgba(114, 47, 55, 0.2) !important;
+}
+
+/* Secondary Button Outline */
+button[kind="secondary"] {
+    background-color: #FFFFFF !important;
+    color: var(--accent-maroon) !important;
+    border: 1px solid var(--accent-gold) !important;
+}
+
+button[kind="secondary"]:hover {
+    background-color: var(--bg-card-subtle) !important;
+}
+
+/* Heritage Divider */
+.heritage-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--accent-gold) 50%, transparent 100%);
+    margin: 2.5rem 0;
+    border: none;
+}
