@@ -5,7 +5,7 @@
 streamlit>=1.35.0
 
 # Computer vision
-opencv-python>=4.9.0
+opencv-python-headless>=4.9.0
 mediapipe>=0.10.14
 
 # Data & analytics
