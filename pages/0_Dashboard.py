@@ -10,7 +10,7 @@ from analytics.session_analytics import get_user_overview_metrics, get_recent_se
 
 st.set_page_config(
     page_title="Dashboard — HastaAI",
-    page_icon="🖐️",
+    page_icon="assets/favicon.png",
     layout="wide",
 )
 
@@ -22,7 +22,14 @@ if not require_auth("User Dashboard"):
 
 user = get_current_user()
 user_id = user["id"]
-user_name = user.get("name", "Student")
+is_guest = user.get("auth_provider") == "guest"
+user_name = "Guest Practitioner" if is_guest else user.get("name", "User")
+welcome_greeting = f"Welcome, {user_name}" if is_guest else f"Welcome back, {user_name}"
+welcome_sub = (
+    "Practicing in an isolated guest session. Your metrics and history are private to this session."
+    if is_guest
+    else "Ready for your next classical hasta mudra practice session?"
+)
 
 # ── Welcome Header ─────────────────────────────────────────────────────────────
 welcome_col1, welcome_col2 = st.columns([2, 1])
@@ -31,13 +38,13 @@ with welcome_col1:
         f"""
         <div style="margin-bottom: 1.5rem;">
             <div style="color: #C5A059; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;">
-                Student Practice Dashboard
+                Practice Dashboard
             </div>
             <h1 style="font-family: 'Cinzel', serif; color: #722F37; font-size: 2.2rem; margin: 0.2rem 0;">
-                Welcome back, {user_name}
+                {welcome_greeting}
             </h1>
             <p style="color: #5A5D5A; font-size: 1.05rem;">
-                Ready for your next classical hasta mudra practice session?
+                {welcome_sub}
             </p>
         </div>
         """,

@@ -8,7 +8,7 @@ from utils.helpers import render_brand_header, inject_custom_css
 
 st.set_page_config(
     page_title="About — HastaAI",
-    page_icon="🖐️",
+    page_icon="assets/favicon.png",
     layout="wide",
 )
 
@@ -49,7 +49,7 @@ with content_col:
         <div class="hasta-card" style="margin-bottom: 2rem;">
             <div class="card-title">Why are Hasta Mudras Important?</div>
             <p class="card-desc">
-                Codified centuries ago in master treatises including the <strong>Natyashastra</strong> of Sage Bharata and the <strong>Abhinaya Darpana</strong> of Nandikeshvara, the 28 Asamyuta (single-hand) gestures represent a vital link to India's intangible cultural heritage. Mastering them requires disciplined finger placement, joint angles, and subtle spatial tension. Without accessible, objective feedback, dance students often struggle to verify whether their finger alignments match traditional standards during independent practice.
+                Codified centuries ago in master treatises including the <strong>Natyashastra</strong> of Sage Bharata and the <strong>Abhinaya Darpana</strong> of Nandikeshvara, the 28 Asamyuta (single-hand) gestures represent a vital link to India's intangible cultural heritage. Mastering them requires disciplined finger placement, joint angles, and subtle spatial tension. Without accessible, objective feedback, practitioners often struggle to verify whether their finger alignments match traditional standards during independent practice.
             </p>
         </div>
         """,
@@ -61,7 +61,7 @@ with content_col:
         <div class="hasta-card" style="margin-bottom: 2rem;">
             <div class="card-title">What Problem Does This Platform Solve?</div>
             <p class="card-desc">
-                Traditional classical dance training requires continuous personal instruction from a Guru. However, during daily home rehearsal, students lack immediate, objective verification. <strong>HastaAI</strong> bridges this gap by acting as an intelligent digital rehearsal companion. By providing instant joint-level feedback and continuous performance analytics, students can refine their technique, build muscle memory, and track their artistic progress over time.
+                Traditional classical dance training requires continuous personal instruction from a Guru. However, during daily home rehearsal, practitioners lack immediate, objective verification. <strong>HastaAI</strong> bridges this gap by acting as an intelligent digital rehearsal companion. By providing instant joint-level feedback and continuous performance analytics, users can refine their technique, build muscle memory, and track their artistic progress over time.
             </p>
         </div>
         """,
@@ -203,7 +203,7 @@ st.markdown(
             User Privacy & Data Ethics
         </h3>
         <p style="font-size: 0.95rem; line-height: 1.7; color: #5A5D5A;">
-            HastaAI strictly respects student privacy. All video capture and neural landmark extraction execute locally within your system environment. Only numerical session metadata—such as session duration, identified mudra name, and calculated confidence scores—are recorded in the local database to generate your practice analytics.
+            HastaAI strictly respects user privacy. All video capture and neural landmark extraction execute locally within your system environment. Only numerical session metadata—such as session duration, identified mudra name, and calculated confidence scores—are recorded in the local database to generate your practice analytics.
         </p>
     </div>
     """,

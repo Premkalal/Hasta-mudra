@@ -17,7 +17,7 @@ from analytics.session_analytics import (
 
 st.set_page_config(
     page_title="Performance Analytics — HastaAI",
-    page_icon="🖐️",
+    page_icon="assets/favicon.png",
     layout="wide",
 )
 
@@ -29,7 +29,7 @@ if not require_auth("Performance Analytics"):
 
 user = get_current_user()
 user_id = user["id"]
-user_name = user.get("name", "Student")
+user_name = user.get("name", "User")
 
 # ── Page Header ───────────────────────────────────────────────────────────────
 st.markdown(

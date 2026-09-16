@@ -9,8 +9,9 @@ from pathlib import Path
 from dataclasses import dataclass
 from typing import List, Optional, Tuple
 import cv2
-import mediapipe as mp
 from config import cfg
+
+mp = None
 
 HAND_CONNECTIONS = [
     (0, 1), (1, 2), (2, 3), (3, 4),        # Thumb
@@ -74,6 +75,9 @@ class HandDetector:
     """
 
     def __init__(self):
+        global mp
+        if mp is None:
+            import mediapipe as mp
         self.use_legacy = hasattr(mp, "solutions")
 
         if self.use_legacy:

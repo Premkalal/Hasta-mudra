@@ -14,7 +14,7 @@ from analytics.session_analytics import export_session_to_csv
 
 st.set_page_config(
     page_title="Practice History — HastaAI",
-    page_icon="🖐️",
+    page_icon="assets/favicon.png",
     layout="wide",
 )
 

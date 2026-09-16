@@ -45,7 +45,7 @@ def test_registration_validation():
 
     valid, msg = validate_registration("Ananya", "ananya@example.com", "123", "123")
     assert valid is False
-    assert "at least 6" in msg
+    assert "at least 8" in msg
 
     valid, msg = validate_registration("Ananya", "ananya@example.com", "secret123", "different")
     assert valid is False
@@ -126,3 +126,54 @@ def test_practice_session_lifecycle():
     user_sessions = get_user_sessions(user_id)
     assert len(user_sessions) >= 1
     assert user_sessions[0]["id"] == sess_id
+
+
+def test_password_update_functions():
+    from db.database import update_user_password, update_user_password_by_id, get_user_by_id
+    from utils.auth import hash_password, verify_password
+
+    uid_token = uuid.uuid4().hex[:8]
+    email = f"pw_test_{uid_token}@example.com"
+    orig_pw = "OriginalPass123"
+    user_id = create_user("PW User", email, hash_password(orig_pw), "local")
+    assert user_id is not None
+
+    # Test update by email
+    new_pw1 = "UpdatedPass456"
+    assert update_user_password(email, hash_password(new_pw1)) is True
+    u1 = get_user_by_id(user_id)
+    assert verify_password(new_pw1, u1["password_hash"]) is True
+    assert verify_password(orig_pw, u1["password_hash"]) is False
+
+    # Test update by ID
+    new_pw2 = "FinalPass789"
+    assert update_user_password_by_id(user_id, hash_password(new_pw2)) is True
+    u2 = get_user_by_id(user_id)
+    assert verify_password(new_pw2, u2["password_hash"]) is True
+
+
+def test_guest_session_isolation():
+    from utils.auth import create_guest_session
+    from analytics.session_analytics import get_user_overview_metrics, get_recent_sessions_df
+
+    guest1 = create_guest_session()
+    guest2 = create_guest_session()
+
+    assert guest1["id"] != guest2["id"]
+    assert guest1["auth_provider"] == "guest"
+    assert guest2["auth_provider"] == "guest"
+
+    # Verify both start with clean analytics
+    m1 = get_user_overview_metrics(guest1["id"])
+    assert m1["total_sessions"] == 0
+    assert m1["unique_mudras_practiced"] == 0
+    assert m1["has_data"] is False
+
+    m2 = get_user_overview_metrics(guest2["id"])
+    assert m2["total_sessions"] == 0
+    assert m2["unique_mudras_practiced"] == 0
+
+    # Verify recent sessions are empty
+    df1 = get_recent_sessions_df(guest1["id"])
+    assert df1.empty
+

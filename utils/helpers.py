@@ -4,52 +4,68 @@ utils/helpers.py — Shared UI & Formatting Helpers for HastaAI
 
 from datetime import datetime
 from pathlib import Path
-from typing import Tuple
-import numpy as np
-import cv2
+from typing import Tuple, Any
 import streamlit as st
+
+
+@st.cache_data
+def _load_custom_css() -> str:
+    """Read and cache the global stylesheet in memory for zero-latency reruns."""
+    css_path = Path(__file__).resolve().parent.parent / "assets" / "styles.css"
+    if css_path.exists():
+        with open(css_path, "r", encoding="utf-8") as f:
+            return f.read()
+    return ""
 
 
 def inject_custom_css():
     """Inject the global HastaAI Indian heritage + Modern AI stylesheet."""
-    css_path = Path(__file__).resolve().parent.parent / "assets" / "styles.css"
-    if css_path.exists():
-        with open(css_path, "r", encoding="utf-8") as f:
-            css_content = f.read()
+    css_content = _load_custom_css()
+    if css_content:
         st.markdown(f"<style>{css_content}</style>", unsafe_allow_html=True)
+
+
+FAVICON_PATH = str(Path(__file__).resolve().parent.parent / "assets" / "favicon.png")
 
 
 def render_brand_header(current_page_title: str = ""):
     """Renders the top branding and authentication status bar."""
     user = st.session_state.get("user")
 
-    user_info_html = ""
     if user:
-        user_info_html = f"""
-        <div style="text-align: right;">
-            <div style="font-weight: 600; font-size: 0.95rem; color: #722F37;">{user.get('name', 'Student')}</div>
-            <div style="font-size: 0.8rem; color: #777;">{user.get('email', '')}</div>
-        </div>
-        """
+        if user.get("auth_provider") == "guest":
+            user_info_html = (
+                '<div style="text-align: right;">'
+                '<div style="font-weight: 600; font-size: 0.95rem; color: #722F37;">Guest Session</div>'
+                '<div style="font-size: 0.8rem; color: #888;">Temporary Practice Mode</div>'
+                '</div>'
+            )
+        else:
+            name = user.get("name", "User")
+            email = user.get("email", "")
+            user_info_html = (
+                '<div style="text-align: right;">'
+                f'<div style="font-weight: 600; font-size: 0.95rem; color: #722F37;">{name}</div>'
+                f'<div style="font-size: 0.8rem; color: #777;">{email}</div>'
+                '</div>'
+            )
     else:
-        user_info_html = """
-        <div style="text-align: right;">
-            <span style="font-size: 0.85rem; color: #888; font-weight: 500;">Guest Mode</span>
-        </div>
-        """
+        user_info_html = (
+            '<div style="text-align: right;">'
+            '<span style="font-size: 0.85rem; color: #888; font-weight: 500;">Guest Mode</span>'
+            '</div>'
+        )
 
-    st.markdown(
-        f"""
-        <div class="brand-header">
-            <div>
-                <div class="brand-logo-text">HastaAI</div>
-                <div class="brand-tagline">Classical Hasta Mudra AI Recognition & Analytics</div>
-            </div>
-            {user_info_html}
-        </div>
-        """,
-        unsafe_allow_html=True,
+    header_html = (
+        '<div class="brand-header">'
+        '<div>'
+        '<div class="brand-logo-text">HastaAI</div>'
+        '<div class="brand-tagline">Classical Hasta Mudra AI Recognition & Analytics</div>'
+        '</div>'
+        f'{user_info_html}'
+        '</div>'
     )
+    st.markdown(header_html, unsafe_allow_html=True)
 
 
 def timestamp_filename(prefix: str = "session", ext: str = "csv") -> str:
@@ -69,16 +85,17 @@ def clamp(value: float, lo: float = 0.0, hi: float = 1.0) -> float:
     return max(lo, min(hi, value))
 
 
-def bgr_to_rgb(bgr_frame: np.ndarray) -> np.ndarray:
+def bgr_to_rgb(bgr_frame: Any) -> Any:
     """
     Convert an OpenCV BGR image to RGB for display in Streamlit st.image().
     Returns a copy of the frame in RGB colour order.
     """
+    import cv2
     return cv2.cvtColor(bgr_frame, cv2.COLOR_BGR2RGB)
 
 
 def overlay_text(
-    frame: np.ndarray,
+    frame: Any,
     text: str,
     position: Tuple[int, int],
     color_bgr: Tuple[int, int, int] = (255, 255, 255),
@@ -89,6 +106,7 @@ def overlay_text(
     Draw text onto a video frame with a soft dark shadow for readability.
     Mutates `frame` in-place.
     """
+    import cv2
     font = cv2.FONT_HERSHEY_DUPLEX
     shadow_color = (0, 0, 0)
     # Shadow offset

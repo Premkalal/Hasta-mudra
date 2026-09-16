@@ -49,7 +49,7 @@ class LoggingConfig:
 
 @dataclass
 class AppConfig:
-    name: str = "Hasta Mudra Recognition"
+    name: str = "HastaAI"
     version: str = "1.0.0"
     debug: bool = False
     camera: CameraConfig = field(default_factory=CameraConfig)
@@ -68,7 +68,7 @@ def load_config(path: Path = _CONFIG_PATH) -> AppConfig:
 
     app_raw = raw.get("app", {})
     return AppConfig(
-        name=app_raw.get("name", "Hasta Mudra Recognition"),
+        name=app_raw.get("name", "HastaAI"),
         version=app_raw.get("version", "1.0.0"),
         debug=app_raw.get("debug", False),
         camera=CameraConfig(**raw.get("camera", {})),

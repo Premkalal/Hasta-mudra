@@ -11,7 +11,7 @@ from utils.auth import is_authenticated, get_current_user
 # ── App Configuration ─────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="HastaAI — Classical Hasta Mudra AI Recognition & Analytics",
-    page_icon="assets/icons/favicon.ico" if False else "🖐️",
+    page_icon="assets/favicon.png",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -21,28 +21,23 @@ init_db()
 inject_custom_css()
 render_brand_header("Home")
 
-# ── Sidebar Navigation Helper ──────────────────────────────────────────────────
+# ── Sidebar Status & Session ───────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("### **HastaAI Navigation**")
+    st.markdown("<div style='font-family: Cinzel; font-size: 1.15rem; color: #722F37; font-weight: 700; margin-bottom: 0.5rem;'>HastaAI Session</div>", unsafe_allow_html=True)
     user = get_current_user()
     if is_authenticated():
-        st.success(f"Signed in as **{user.get('name', 'Student')}**")
-        st.page_link("pages/0_Dashboard.py", label="User Dashboard")
-        st.page_link("pages/1_Live_Recognition.py", label="Live Recognition")
-        st.page_link("pages/2_Explore_Mudras.py", label="Explore Mudras")
-        st.page_link("pages/3_Analytics.py", label="Performance Analytics")
-        st.page_link("pages/4_Practice_History.py", label="Practice History")
-        st.page_link("pages/7_Profile.py", label="My Profile")
-        if st.button("Sign Out", key="sidebar_logout_btn"):
+        if user.get("auth_provider") == "guest":
+            st.info("Active: **Guest Session**\n\nYour practice analytics are isolated to this session.")
+        else:
+            st.success(f"Signed in as **{user.get('name', 'User')}**")
+        if st.button("Sign Out", key="sidebar_logout_btn", use_container_width=True):
             from utils.auth import logout_user
             logout_user()
             st.rerun()
     else:
-        st.info("You are in **Guest Mode**.")
-        st.page_link("app.py", label="Home")
-        st.page_link("pages/2_Explore_Mudras.py", label="Explore Mudras")
-        st.page_link("pages/5_About.py", label="About HastaAI")
-        st.page_link("pages/6_Authentication.py", label="Sign In / Register")
+        st.caption("Browsing as guest visitor.")
+        if st.button("Sign In / Register", key="sidebar_signin_btn", use_container_width=True):
+            st.switch_page("pages/6_Authentication.py")
 
 # ── HERO SECTION ──────────────────────────────────────────────────────────────
 hero_col1, hero_col2 = st.columns([1.2, 0.8], gap="large")

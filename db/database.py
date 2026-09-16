@@ -23,11 +23,21 @@ def _get_connection() -> sqlite3.Connection:
     conn = sqlite3.connect(str(db_path), check_same_thread=False)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON;")
+    conn.execute("PRAGMA journal_mode = WAL;")
+    conn.execute("PRAGMA synchronous = NORMAL;")
+    conn.execute("PRAGMA cache_size = 10000;")
     return conn
+
+
+_DB_INITIALIZED = False
 
 
 def init_db():
     """Create tables if they don't exist and seed mudras. Call at app startup."""
+    global _DB_INITIALIZED
+    if _DB_INITIALIZED:
+        return
+
     with _get_connection() as conn:
         conn.executescript(SCHEMA_SQL)
 
@@ -55,6 +65,7 @@ def init_db():
                 ],
             )
             conn.commit()
+    _DB_INITIALIZED = True
 
 
 # ── User Operations ────────────────────────────────────────────────────────────
@@ -95,6 +106,25 @@ def update_user_name(user_id: int, new_name: str) -> bool:
     sql = "UPDATE users SET name = ? WHERE id = ?"
     with _get_connection() as conn:
         cur = conn.execute(sql, (new_name.strip(), user_id))
+        conn.commit()
+        return cur.rowcount > 0
+
+
+def update_user_password(email: str, new_password_hash: str) -> bool:
+    """Update a user's password hash by email. Returns True if a row was updated."""
+    sql = "UPDATE users SET password_hash = ? WHERE LOWER(TRIM(email)) = LOWER(TRIM(?))"
+    with _get_connection() as conn:
+        cur = conn.execute(sql, (new_password_hash, email.strip().lower()))
+        conn.commit()
+        return cur.rowcount > 0
+
+
+def update_user_password_by_id(user_id: int, new_password_hash: str) -> bool:
+    """Update a user's password hash by user ID. Returns True if a row was updated."""
+    sql = "UPDATE users SET password_hash = ? WHERE id = ?"
+    with _get_connection() as conn:
+        cur = conn.execute(sql, (new_password_hash, user_id))
+        conn.commit()
         return cur.rowcount > 0
 
 

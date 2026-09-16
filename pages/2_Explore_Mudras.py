@@ -11,7 +11,7 @@ from utils.auth import is_authenticated
 
 st.set_page_config(
     page_title="Explore Mudras — HastaAI",
-    page_icon="🖐️",
+    page_icon="assets/favicon.png",
     layout="wide",
 )
 

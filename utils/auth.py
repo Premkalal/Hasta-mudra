@@ -61,8 +61,8 @@ def validate_registration(name: str, email: str, password: str, confirm_password
         return False, "Full Name must be at least 2 characters."
     if not email or not EMAIL_REGEX.match(email.strip()):
         return False, "Please enter a valid email address."
-    if not password or len(password) < 6:
-        return False, "Password must be at least 6 characters long."
+    if not password or len(password) < 8:
+        return False, "Password must contain at least 8 characters."
     if password != confirm_password:
         return False, "Passwords do not match."
     return True, ""
@@ -99,6 +99,34 @@ def login_user(user: Dict[str, Any]):
     st.session_state.authenticated = True
 
 
+def create_guest_session() -> Dict[str, Any]:
+    """
+    Creates an isolated guest user record in SQLite.
+    Each guest gets a unique user_id and starts with 0 practice sessions,
+    ensuring guest analytics are strictly isolated and never shared between visitors.
+    """
+    import uuid
+    guest_token = uuid.uuid4().hex[:8]
+    guest_email = f"guest_{guest_token}@hastaai.local"
+    guest_name = "Guest User"
+    dummy_hash = hash_password(secrets.token_hex(16))
+    guest_id = create_user(guest_name, guest_email, dummy_hash, auth_provider="guest")
+    guest_user = {
+        "id": guest_id,
+        "name": guest_name,
+        "email": guest_email,
+        "auth_provider": "guest",
+    }
+    login_user(guest_user)
+    return guest_user
+
+
+def is_guest_user() -> bool:
+    """Check if the currently active user is an isolated guest session."""
+    user = get_current_user()
+    return bool(user and user.get("auth_provider") == "guest")
+
+
 def logout_user():
     """Clear user session completely."""
     st.session_state.user = None
@@ -115,7 +143,7 @@ def require_auth(page_name: str = "this page") -> bool:
     Returns True if authenticated, else renders an alert and returns False.
     """
     if not is_authenticated():
-        st.warning(f"🔒 Access to {page_name} requires you to sign in.")
+        st.warning(f"Access to {page_name} requires you to sign in.")
         col1, col2 = st.columns([1, 3])
         with col1:
             if st.button("Go to Sign In", key="guard_login_btn"):
