@@ -76,6 +76,7 @@ def test_create_and_fetch_user():
     ok = update_user_name(user_id, "Updated Dancer")
     assert ok is True
     updated = get_user_by_id(user_id)
+    assert updated is not None
     assert updated["name"] == "Updated Dancer"
 
 
@@ -93,6 +94,7 @@ def test_practice_session_lifecycle():
     email = f"session_test_user_{unique_id}@example.com"
     user_id = create_user("Session User", email, hash_password("Pass123"), "local")
 
+    assert user_id is not None
     # Start session
     sess_id = start_practice_session(user_id=user_id)
     assert sess_id is not None
@@ -142,6 +144,7 @@ def test_password_update_functions():
     new_pw1 = "UpdatedPass456"
     assert update_user_password(email, hash_password(new_pw1)) is True
     u1 = get_user_by_id(user_id)
+    assert u1 is not None
     assert verify_password(new_pw1, u1["password_hash"]) is True
     assert verify_password(orig_pw, u1["password_hash"]) is False
 
@@ -149,6 +152,7 @@ def test_password_update_functions():
     new_pw2 = "FinalPass789"
     assert update_user_password_by_id(user_id, hash_password(new_pw2)) is True
     u2 = get_user_by_id(user_id)
+    assert u2 is not None
     assert verify_password(new_pw2, u2["password_hash"]) is True
 
 

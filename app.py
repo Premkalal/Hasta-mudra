@@ -25,7 +25,7 @@ render_brand_header("Home")
 with st.sidebar:
     st.markdown("<div style='font-family: Cinzel; font-size: 1.15rem; color: #722F37; font-weight: 700; margin-bottom: 0.5rem;'>HastaAI Session</div>", unsafe_allow_html=True)
     user = get_current_user()
-    if is_authenticated():
+    if is_authenticated() and user is not None:
         if user.get("auth_provider") == "guest":
             st.info("Active: **Guest Session**\n\nYour practice analytics are isolated to this session.")
         else:

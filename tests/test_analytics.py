@@ -50,15 +50,19 @@ def test_user_with_sessions_analytics():
     user_id = create_user("Active Dancer", email, hash_password("pass123"), "local")
     if not user_id:
         from db.database import get_user_by_email
-        user_id = get_user_by_email(email)["id"]
+        existing = get_user_by_email(email)
+        assert existing is not None
+        user_id = existing["id"]
 
     # Session 1: Pataka (id=1)
     s1 = start_practice_session(user_id, mudra_id=1)
+    assert s1 is not None
     log_recognition_result(s1, 1, 0.90)
     end_practice_session(s1, duration=20.0, average_confidence=0.90, performance_score=88.0, dominant_mudra_id=1)
 
     # Session 2: Tripataka (id=2)
     s2 = start_practice_session(user_id, mudra_id=2)
+    assert s2 is not None
     log_recognition_result(s2, 2, 0.94)
     end_practice_session(s2, duration=35.0, average_confidence=0.94, performance_score=94.0, dominant_mudra_id=2)
 

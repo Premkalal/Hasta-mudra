@@ -25,6 +25,7 @@ if not require_auth("Practice History"):
     st.stop()
 
 user = get_current_user()
+assert user is not None
 user_id = user["id"]
 
 # ── Page Header ───────────────────────────────────────────────────────────────

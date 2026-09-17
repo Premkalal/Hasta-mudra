@@ -155,7 +155,7 @@ def get_mudra_by_id_db(mudra_id: int) -> Optional[Dict[str, Any]]:
 
 # ── Session & Recognition Operations ───────────────────────────────────────────
 
-def start_practice_session(user_id: int, mudra_id: Optional[int] = None) -> int:
+def start_practice_session(user_id: int, mudra_id: Optional[int] = None) -> Optional[int]:
     """Create a new practice session record."""
     now = datetime.now().isoformat()
     sql = """

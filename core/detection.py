@@ -81,9 +81,9 @@ class HandDetector:
         self.use_legacy = hasattr(mp, "solutions")
 
         if self.use_legacy:
-            self._mp_hands = mp.solutions.hands
-            self._mp_draw = mp.solutions.drawing_utils
-            self._mp_style = mp.solutions.drawing_styles
+            self._mp_hands = mp.solutions.hands  # type: ignore[attr-defined]
+            self._mp_draw = mp.solutions.drawing_utils  # type: ignore[attr-defined]
+            self._mp_style = mp.solutions.drawing_styles  # type: ignore[attr-defined]
 
             self.hands = self._mp_hands.Hands(
                 static_image_mode=False,
@@ -124,7 +124,7 @@ class HandDetector:
             rgb.flags.writeable = True
             return results
         else:
-            mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)
+            mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)  # type: ignore[attr-defined]
             raw_result = self.hands.detect(mp_image)
             return _TasksResultAdapter(raw_result)
 

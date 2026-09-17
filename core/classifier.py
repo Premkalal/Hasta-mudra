@@ -343,7 +343,7 @@ class MudraClassifier:
 
         # Find best candidate
         if scores:
-            best_name = max(scores, key=scores.get)
+            best_name = max(scores, key=lambda k: scores[k])
             best_conf = round(float(scores[best_name]), 3)
         else:
             best_name = "Unknown"

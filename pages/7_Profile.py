@@ -23,9 +23,11 @@ if not require_auth("My Profile"):
     st.stop()
 
 current_user = get_current_user()
+assert current_user is not None
 user_db = get_user_by_id(current_user["id"])
 if not user_db:
     user_db = current_user
+assert user_db is not None
 
 user_id = user_db["id"]
 user_name = user_db.get("name", "User")

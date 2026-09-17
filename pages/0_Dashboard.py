@@ -21,6 +21,7 @@ if not require_auth("User Dashboard"):
     st.stop()
 
 user = get_current_user()
+assert user is not None
 user_id = user["id"]
 is_guest = user.get("auth_provider") == "guest"
 user_name = "Guest Practitioner" if is_guest else user.get("name", "User")
