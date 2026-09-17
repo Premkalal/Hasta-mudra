@@ -77,13 +77,16 @@ class HandDetector:
     def __init__(self):
         global mp
         if mp is None:
-            import mediapipe as mp
-        self.use_legacy = hasattr(mp, "solutions")
+            import mediapipe as _mp
+            mp = _mp
 
-        if self.use_legacy:
+        # Prefer the legacy solutions API (works on all platforms including Streamlit Cloud).
+        # Only fall back to the modern Tasks API if solutions is unavailable.
+        try:
             self._mp_hands = mp.solutions.hands  # type: ignore[attr-defined]
             self._mp_draw = mp.solutions.drawing_utils  # type: ignore[attr-defined]
             self._mp_style = mp.solutions.drawing_styles  # type: ignore[attr-defined]
+            self.use_legacy = True
 
             self.hands = self._mp_hands.Hands(
                 static_image_mode=False,
@@ -92,8 +95,9 @@ class HandDetector:
                 min_tracking_confidence=cfg.mediapipe.min_tracking_confidence,
                 model_complexity=cfg.mediapipe.model_complexity,
             )
-        else:
-            # Modern MediaPipe Tasks API
+        except Exception:
+            # Modern MediaPipe Tasks API (fallback)
+            self.use_legacy = False
             from mediapipe.tasks import python
             from mediapipe.tasks.python import vision
 
@@ -114,6 +118,7 @@ class HandDetector:
                 running_mode=vision.RunningMode.IMAGE,
             )
             self.hands = vision.HandLandmarker.create_from_options(options)
+
 
     def detect(self, bgr_frame):
         """Run hand detection on a BGR OpenCV frame."""
