@@ -6,7 +6,7 @@ streamlit>=1.35.0
 
 # Computer vision
 opencv-python-headless>=4.9.0
-mediapipe>=0.10.14
+mediapipe==0.10.11
 
 # Data & analytics
 numpy>=1.26.0
