@@ -167,6 +167,14 @@ def start_practice_session(user_id: int, mudra_id: Optional[int] = None) -> Opti
         return cur.lastrowid
 
 
+def delete_practice_session(session_id: int) -> None:
+    """Delete an empty/failed practice session and its recognition results."""
+    with _get_connection() as conn:
+        conn.execute("DELETE FROM recognition_results WHERE session_id = ?", (session_id,))
+        conn.execute("DELETE FROM practice_sessions WHERE id = ?", (session_id,))
+        conn.commit()
+
+
 def end_practice_session(
     session_id: int,
     duration: float,
